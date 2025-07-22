@@ -9,6 +9,8 @@ namespace HaneensCollection.IServices
     {
         Task<List<StitchedSuitDto>> GetAllAsync();
         Task<StitchedSuitDto> GetByIdAsync(Guid id);
+        Task<List<StitchedSuitDto>> GetByCategoryTypeAsync(string categoryType);
+
         Task<StitchedSuitDto> CreateAsync(StitchedSuitDto dto);
         Task<bool> UpdateAsync(Guid id, StitchedSuitDto dto);
         Task<bool> DeleteAsync(Guid id);

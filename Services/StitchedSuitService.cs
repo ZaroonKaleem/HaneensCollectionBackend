@@ -208,6 +208,16 @@ namespace HaneensCollection.Services
             };
         }
 
+        public async Task<List<StitchedSuitDto>> GetByCategoryTypeAsync(string categoryType)
+        {
+            var suits = await _context.StitchedSuits
+                .Include(p => p.Images)
+                .Where(s => s.CategoryType == categoryType)
+                .ToListAsync();
+
+            return suits.Select(MapToDto).ToList();
+        }
+
         private StitchedSuit MapToEntity(StitchedSuitDto dto, StitchedSuit existing = null)
         {
             var suit = existing ?? new StitchedSuit

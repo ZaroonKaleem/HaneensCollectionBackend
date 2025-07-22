@@ -1,4 +1,5 @@
 ﻿// Data/ApplicationDbContext.cs
+using ECommerce.Models;
 using HaneensCollection.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace HaneensCollection.Data
         public DbSet<HeroSection> HeroSections { get; set; }
 
         public DbSet<UnstitchedSuit> UnstitchedSuits { get; set; }
+
         public DbSet<StitchedSuit> StitchedSuits { get; set; }
 
         public DbSet<InstagramPost> InstagramPosts { get; set; }
@@ -23,6 +25,9 @@ namespace HaneensCollection.Data
         public DbSet<FeaturedProduct> FeaturedProducts { get; set; }
 
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -39,6 +44,17 @@ namespace HaneensCollection.Data
 
                 // Add index for frequently queried fields
                 entity.HasIndex(e => e.CreatedAt);
+            });
+            builder.Entity<Order>(entity =>
+            {
+                entity.HasKey(o => o.Id);
+                entity.Property(o => o.CustomerName).IsRequired().HasMaxLength(100);
+                entity.Property(o => o.CustomerEmail).IsRequired().HasMaxLength(100);
+                entity.Property(o => o.CustomerPhone).HasMaxLength(15);
+                entity.Property(o => o.ShippingAddress).IsRequired().HasMaxLength(500);
+                entity.Property(o => o.Subtotal).HasColumnType("decimal(18,2)");
+                entity.Property(o => o.ShippingCost).HasColumnType("decimal(18,2)");
+                entity.Property(o => o.Total).HasColumnType("decimal(18,2)");
             });
             builder.Entity<InstagramPost>(entity =>
             {
