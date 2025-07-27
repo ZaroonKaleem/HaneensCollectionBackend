@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250716143124_ProductsUpdatedAgain")]
-    partial class ProductsUpdatedAgain
+    [Migration("20250727130440_AddPretAndLuxuryEntities")]
+    partial class AddPretAndLuxuryEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,99 @@ namespace Backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ECommerce.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CustomerEmail")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("CustomerPhone")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShippingAddress")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<decimal>("ShippingCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("ECommerce.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems", (string)null);
+                });
 
             modelBuilder.Entity("HaneensCollection.Models.Admin", b =>
                 {
@@ -177,11 +270,20 @@ namespace Backend.Migrations
                     b.Property<bool>("IsPrimary")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("LuxuryProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("MimeType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("PretProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("StitchedSuitProductId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("UnstitchedSuitProductId")
@@ -190,6 +292,12 @@ namespace Backend.Migrations
                     b.HasKey("ImageId");
 
                     b.HasIndex("FeaturedProductProductId");
+
+                    b.HasIndex("LuxuryProductId");
+
+                    b.HasIndex("PretProductId");
+
+                    b.HasIndex("StitchedSuitProductId");
 
                     b.HasIndex("UnstitchedSuitProductId");
 
@@ -267,6 +375,76 @@ namespace Backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("InstagramPosts", (string)null);
+                });
+
+            modelBuilder.Entity("Luxury", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double?>("AverageRating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ColorOptions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsExclusive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Material")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("RatingCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SalePercentage")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ShippingInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasMaxLength(900)
+                        .HasColumnType("nvarchar(900)");
+
+                    b.Property<string>("SizesAvailable")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("Luxuries");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -402,6 +580,150 @@ namespace Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Pret", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double?>("AverageRating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ColorOptions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsExclusive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Material")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("RatingCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SalePercentage")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ShippingInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasMaxLength(900)
+                        .HasColumnType("nvarchar(900)");
+
+                    b.Property<string>("SizesAvailable")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("Prets");
+                });
+
+            modelBuilder.Entity("StitchedSuit", b =>
+                {
+                    b.Property<Guid>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double?>("AverageRating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("CategoryType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ColorOptions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsExclusive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Material")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OriginalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("RatingCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SalePercentage")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("SalePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ShippingInfo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortDescription")
+                        .IsRequired()
+                        .HasMaxLength(900)
+                        .HasColumnType("nvarchar(900)");
+
+                    b.Property<string>("SizesAvailable")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("StitchedSuits");
+                });
+
             modelBuilder.Entity("UnstitchedSuit", b =>
                 {
                     b.Property<Guid>("ProductId")
@@ -472,11 +794,34 @@ namespace Backend.Migrations
                     b.ToTable("UnstitchedSuits");
                 });
 
+            modelBuilder.Entity("ECommerce.Models.OrderItem", b =>
+                {
+                    b.HasOne("ECommerce.Models.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("HaneensCollection.Models.ProductImage", b =>
                 {
                     b.HasOne("HaneensCollection.Models.FeaturedProduct", null)
                         .WithMany("Images")
                         .HasForeignKey("FeaturedProductProductId");
+
+                    b.HasOne("Luxury", null)
+                        .WithMany("Images")
+                        .HasForeignKey("LuxuryProductId");
+
+                    b.HasOne("Pret", null)
+                        .WithMany("Images")
+                        .HasForeignKey("PretProductId");
+
+                    b.HasOne("StitchedSuit", null)
+                        .WithMany("Images")
+                        .HasForeignKey("StitchedSuitProductId");
 
                     b.HasOne("UnstitchedSuit", null)
                         .WithMany("Images")
@@ -531,6 +876,101 @@ namespace Backend.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("StitchedSuit", b =>
+                {
+                    b.OwnsOne("DupattaDetails", "Dupatta", b1 =>
+                        {
+                            b1.Property<Guid>("StitchedSuitProductId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Color")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("DigitalPrint")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Fabric")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("StitchedSuitProductId");
+
+                            b1.ToTable("StitchedSuits");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StitchedSuitProductId");
+                        });
+
+                    b.OwnsOne("ShirtDetails", "Shirt", b1 =>
+                        {
+                            b1.Property<Guid>("StitchedSuitProductId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Color")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("DigitalPrint")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("EmbroideredBorder")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("EmbroideredNeckline")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Fabric")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("StitchedSuitProductId");
+
+                            b1.ToTable("StitchedSuits");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StitchedSuitProductId");
+                        });
+
+                    b.OwnsOne("TrouserDetails", "Trouser", b1 =>
+                        {
+                            b1.Property<Guid>("StitchedSuitProductId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Color")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Fabric")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("StitchedSuitProductId");
+
+                            b1.ToTable("StitchedSuits");
+
+                            b1.WithOwner()
+                                .HasForeignKey("StitchedSuitProductId");
+                        });
+
+                    b.Navigation("Dupatta")
+                        .IsRequired();
+
+                    b.Navigation("Shirt")
+                        .IsRequired();
+
+                    b.Navigation("Trouser")
                         .IsRequired();
                 });
 
@@ -629,7 +1069,27 @@ namespace Backend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ECommerce.Models.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
             modelBuilder.Entity("HaneensCollection.Models.FeaturedProduct", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("Luxury", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("Pret", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("StitchedSuit", b =>
                 {
                     b.Navigation("Images");
                 });

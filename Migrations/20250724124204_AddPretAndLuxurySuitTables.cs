@@ -6,33 +6,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class ProductsUpdatedAgain : Migration
+    public partial class AddPretAndLuxurySuitTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<Guid>(
-                name: "UnstitchedSuitProductId",
+                name: "PretProductId",
                 table: "ProductImages",
                 type: "uniqueidentifier",
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "UnstitchedSuits",
+                name: "Prets",
                 columns: table => new
                 {
                     ProductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Shirt_EmbroideredNeckline = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Shirt_DigitalPrint = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Shirt_EmbroideredBorder = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Shirt_Fabric = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Shirt_Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Dupatta_DigitalPrint = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Dupatta_Fabric = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Dupatta_Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Trouser_Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Trouser_Fabric = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Trouser_Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Category = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -52,19 +41,19 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UnstitchedSuits", x => x.ProductId);
+                    table.PrimaryKey("PK_Prets", x => x.ProductId);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductImages_UnstitchedSuitProductId",
+                name: "IX_ProductImages_PretProductId",
                 table: "ProductImages",
-                column: "UnstitchedSuitProductId");
+                column: "PretProductId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_ProductImages_UnstitchedSuits_UnstitchedSuitProductId",
+                name: "FK_ProductImages_Prets_PretProductId",
                 table: "ProductImages",
-                column: "UnstitchedSuitProductId",
-                principalTable: "UnstitchedSuits",
+                column: "PretProductId",
+                principalTable: "Prets",
                 principalColumn: "ProductId");
         }
 
@@ -72,18 +61,18 @@ namespace Backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_ProductImages_UnstitchedSuits_UnstitchedSuitProductId",
+                name: "FK_ProductImages_Prets_PretProductId",
                 table: "ProductImages");
 
             migrationBuilder.DropTable(
-                name: "UnstitchedSuits");
+                name: "Prets");
 
             migrationBuilder.DropIndex(
-                name: "IX_ProductImages_UnstitchedSuitProductId",
+                name: "IX_ProductImages_PretProductId",
                 table: "ProductImages");
 
             migrationBuilder.DropColumn(
-                name: "UnstitchedSuitProductId",
+                name: "PretProductId",
                 table: "ProductImages");
         }
     }

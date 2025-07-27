@@ -15,7 +15,7 @@ namespace ECommerce.Models
         public virtual Order Order { get; set; }
 
         [Required]
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
 
         [Required]
         public string ProductName { get; set; }

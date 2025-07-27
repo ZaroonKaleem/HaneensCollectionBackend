@@ -63,6 +63,8 @@ builder.Services.AddScoped<IUnstitchedSuitService, UnstitchedSuitService>();
 builder.Services.AddScoped<IStitchedSuitService, StitchedSuitService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ImageCompressionService>();
+builder.Services.AddScoped<IPretService, PretService>();
+builder.Services.AddScoped<ILuxuryService, LuxuryService>();
 
 
 

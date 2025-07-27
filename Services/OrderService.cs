@@ -32,14 +32,14 @@ namespace ECommerce.Services
                 Subtotal = orderDto.Subtotal,
                 ShippingCost = orderDto.ShippingCost,
                 Total = orderDto.Total,
-                OrderItems = orderDto.Items.Select(item => new OrderItem
+                OrderItems = orderDto.Items?.Select(item => new OrderItem
                 {
                     ProductId = item.ProductId,
                     ProductName = item.ProductName,
                     Price = item.Price,
                     Quantity = item.Quantity,
                     ImageUrl = item.ImageUrl
-                }).ToList()
+                }).ToList() ?? new List<OrderItem>()
             };
 
             _context.Orders.Add(order);
