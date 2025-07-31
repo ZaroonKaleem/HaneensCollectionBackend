@@ -242,7 +242,7 @@ namespace HaneensCollection.Services
             suit.Material = dto.Material;
             suit.IsNew = dto.IsNew;
             suit.IsExclusive = dto.IsExclusive;
-            suit.ShippingInfo = dto.ShippingInfo;
+            suit.ShippingInfo = dto.ShippingInfo ?? "Standard shipping";
             suit.Note = dto.Note;
 
             if (dto.Shirt != null)

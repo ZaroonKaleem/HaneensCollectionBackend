@@ -34,7 +34,7 @@ public abstract class Product
     public bool IsNew { get; set; }
     public bool IsExclusive { get; set; }
 
-    public string ShippingInfo { get; set; }
+    public string? ShippingInfo { get; set; }
 
     public List<ProductImage> Images { get; set; } = new();
 }
