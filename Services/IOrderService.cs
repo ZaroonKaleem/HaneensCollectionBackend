@@ -7,5 +7,7 @@ namespace ECommerce.Services
     {
         Task<OrderResponseDto> CreateOrderAsync(CreateOrderDto orderDto);
         Task<OrderResponseDto> GetOrderByIdAsync(int id);
+        Task<IEnumerable<OrderResponseDto>> GetAllOrdersAsync();
+        Task<OrderResponseDto> UpdateOrderStatusAsync(int orderId, string newStatus);
     }
 }
